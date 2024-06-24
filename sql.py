@@ -39,5 +39,5 @@ for row in cursor:
 cursor.close()
 connection.close()
 
-
+print("test")
 
