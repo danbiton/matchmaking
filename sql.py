@@ -44,9 +44,13 @@ query_male = "SELECT * from ProfiLeMale"
 query_female = "SELECT * FROM ProfileFemale"
 
 cursor.execute(query_male)
+
+
 males = cursor.fetchall()
 
+
 cursor.execute(query_female)
+
 females = cursor.fetchall()
 
 
