@@ -4,7 +4,7 @@ import pyodbc
 
 class SQL:
     def __init__(self):
-        self.server = 'DESKTOP-QCOJ24N\\SQLEXPRESS'
+        self.server = 'DESKTOP-9HC32H2\SQLEXPRESS'
         self.database = 'matchmaking'
         self.driver = '{ODBC Driver 17 for SQL Server}'
         self.connection = pyodbc.connect(
