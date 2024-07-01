@@ -11,8 +11,11 @@ class SQL:
             f'DRIVER={self.driver};SERVER={self.server};DATABASE={self.database};Trusted_Connection=yes;')
         self.cursor = self.connection.cursor()
 
-    def execute(self, query):
-        self.cursor.execute(query)
+    def execute(self, query,params=None):
+        if params:
+            self.cursor.execute(query, params)
+        else:    
+            self.cursor.execute(query)
 
     def fetchall(self):
         return self.cursor.fetchall()
