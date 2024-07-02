@@ -12,22 +12,24 @@ class mach:
     # date_of_birth
 
 
-# from sql_key import SQL
+from sql_key import SQL
 # יצירת אובייקט מהמחלקה SQL
-# sql = SQL()
-# query_male = "SELECT * from ProfiLeMale"
-#
-# query_female = "SELECT * FROM ProfileFemale"
-#
-#
-#
-# sql.execute(query_male)
-# males = sql.fetchall()
-#
-# sql.execute(query_female)
-# females = sql.fetchall()
-# sql.commit()
-# sql.close()
+sql = SQL()
+query_male = "SELECT * from ProfiLeMale"
+
+query_female = "SELECT * FROM ProfileFemale"
+
+
+
+sql.execute(query_male)
+males = sql.fetchall()
+
+sql.execute(query_female)
+females = sql.fetchall()
+sql.commit()
+sql.close()
+
+
 
 def calculate_match_score(male, female, preferences):
     score = 0
@@ -57,7 +59,6 @@ def calculate_match_score(male, female, preferences):
 # אני רוצה לעשות טבלה שנכנס לה הגיל, ולפי גיל בודק את bmi האם רגיל או לא
 def BMI(height,weight,age):
     bmi = weight / (height/100 * height/100)
-    print(bmi)
     if 18 <= age <= 25:
         if bmi <= 17:
             return "very thin"
@@ -93,3 +94,5 @@ def BMI(height,weight,age):
             return "fat"
 print(BMI(170,63,31))
 
+for i in females:
+    score = calculate_match_score(males, i)
