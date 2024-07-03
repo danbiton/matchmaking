@@ -1,36 +1,23 @@
 # אני מנסה לעשות ניסיונות לחיבור עם sql
-class mach:
-    my_mother_name = "Batya"
-    my_israel_abroad ="Israel"
-    # age
-    # studying_working
-    my_sect = ["Hasidic" ,"Ashkenazi"]
-    # skin_color
-    # height
-    # eye_color
-    # weight
-    # date_of_birth
-
-
 from sql_key import SQL
 # יצירת אובייקט מהמחלקה SQL
 sql = SQL()
-query_male = "SELECT * from ProfiLeMale"
+query_male = "SELECT * from ProfiLeMale WHERE serial_number = 8"
 
 query_female = "SELECT * FROM ProfileFemale"
 
 
 
 sql.execute(query_male)
-males = sql.fetchall()
+male = sql.fetchall()
 
 sql.execute(query_female)
-females = sql.fetchall()
+female = sql.fetchall()
 sql.commit()
 sql.close()
 
 
-
+# זה הפונקציה שמקבלת העדפות של אדם, פרטים שלו, ורשימה של כל הבנות אחד אחד כל ריצה מקבלת ציון
 def calculate_match_score(male, female, preferences):
     score = 0
     if male.mother_name != female.first_name:
@@ -59,7 +46,8 @@ def calculate_match_score(male, female, preferences):
 # אני רוצה לעשות טבלה שנכנס לה הגיל, ולפי גיל בודק את bmi האם רגיל או לא
 def BMI(height,weight,age):
     bmi = weight / (height/100 * height/100)
-    if 18 <= age <= 25:
+
+    if 16 <= age <= 25:
         if bmi <= 17:
             return "very thin"
         elif 17 < bmi < 24:
@@ -81,18 +69,16 @@ def BMI(height,weight,age):
             return "full"
         elif bmi > 33:
             return "fat"
-    if 36 <= age:
+    if age >= 36:
         if bmi <= 19:
             return "very thin"
-        elif 20 <= bmi <= 26:
+        elif 19 < bmi <= 26:
             return "thin"
-        elif 27 <= bmi <= 29:
+        elif 25 < bmi <= 29:
             return "average"
-        elif 30 <= bmi <= 34:
+        elif 29 < bmi <= 34:
             return "full"
-        elif bmi >= 35:
+        elif bmi > 34:
             return "fat"
-print(BMI(170,63,31))
 
-for i in females:
-    score = calculate_match_score(males, i)
+
