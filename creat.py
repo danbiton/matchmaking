@@ -1,10 +1,17 @@
-import pyodbc
+
+from sql_key import SQL
 import random
 from datetime import datetime, timedelta
+from  bdika import BMI
+sql = SQL()
+
+
+
+
 
 # פרטי החיבור ל-SQL Server
-server = 'DESKTOP-9HC32H2\\SQLEXPRESS'  # שם השרת שלך
-database = 'matchmaking'  # שם בסיס הנתונים שלך
+server = 'DESKTOP-QCOJ24N\SQLEXPRESS'
+database = 'matchmaking'
 
 # שמות לדוגמה
 first_names = ['Moshe', 'Shimon', 'Yosef', 'Avraham', 'David', 'Yehuda', 'Chaim', 'Yitzhak', 'Reuven', 'Benjamin',
@@ -32,23 +39,23 @@ def calculate_age(birth_date, target_date):
     return target_date.year - birth_date.year - ((target_date.month, target_date.day) < (birth_date.month, birth_date.day))
 
 # חיבור ל-SQL Server
-conn = pyodbc.connect(
-    'DRIVER={ODBC Driver 17 for SQL Server};'
-    'SERVER=' + server + ';'
-    'DATABASE=' + database + ';'
-    'Trusted_Connection=yes;'
-)
-cursor = conn.cursor()
+# conn = pyodbc.connect(
+#     'DRIVER={ODBC Driver 17 for SQL Server};'
+#     'SERVER=' + server + ';'
+#     'DATABASE=' + database + ';'
+#     'Trusted_Connection=yes;'
+# )
+# cursor = conn.cursor()
 
 # מחיקת הטבלה הקיימת אם היא קיימת
-cursor.execute('''
+sql.execute('''
 IF OBJECT_ID('ProfileMale', 'U') IS NOT NULL
     DROP TABLE ProfileMale;
 ''')
-conn.commit()
+sql.commit()
 
 # יצירת הטבלה מחדש
-cursor.execute('''
+sql.execute('''
 CREATE TABLE ProfileMale
 (
     serial_number INT IDENTITY(1,1) PRIMARY KEY,
@@ -65,13 +72,14 @@ CREATE TABLE ProfileMale
     height DECIMAL(5,2) NOT NULL,
     eye_color VARCHAR(10) NOT NULL CHECK (eye_color IN ('light blue', 'brown', 'green')),
     weight DECIMAL(5,2) NOT NULL,
-    date_of_birth DATE NOT NULL
+    date_of_birth DATE NOT NULL,
+    Appearance VARCHAR(10) 
 );
 ''')
-conn.commit()
+sql.commit()
 
 # תאריך היעד לחישוב הגיל
-target_date = datetime(2024, 6, 24)
+target_date = datetime(2024, 2, 7)
 
 # יצירת 200 רשומות רנדומליות
 for i in range(200):
@@ -93,14 +101,15 @@ for i in range(200):
     eye_color_choice = random.choice(eye_color)
     weight = round(random.uniform(50.0, 100.0), 2)
     date_of_birth_str = date_of_birth.strftime('%Y-%m-%d')
+    Appearance = BMI(height,weight,age)
 
     # הכנסה לבסיס הנתונים
-    cursor.execute('''
-        INSERT INTO ProfileMale (first_name, last_name, father_name, mother_name, city, israel_abroad, age, studying_working, sect, skin_color, height, eye_color, weight, date_of_birth)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    ''', first_name, last_name, father_name, mother_name, city, israel_abroad, age, studying_working_choice, sect_choice, skin_color_choice, height, eye_color_choice, weight, date_of_birth_str)
+    sql.execute('''
+        INSERT INTO ProfileMale (first_name, last_name, father_name, mother_name, city, israel_abroad, age, studying_working, sect, skin_color, height, eye_color, weight, date_of_birth,Appearance)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)
+    ''', first_name, last_name, father_name, mother_name, city, israel_abroad, age, studying_working_choice, sect_choice, skin_color_choice, height, eye_color_choice, weight, date_of_birth_str,Appearance)
 
 # ביצוע commit ושחרור המשאבים
-conn.commit()
-cursor.close()
-conn.close()
+sql.commit()
+sql.close()
+

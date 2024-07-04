@@ -27,21 +27,21 @@
 # #     }
 # #     return user_prefs
 
-# # def insert_user_preferences(sql, prefs):
-# #     print(f"Inserting: {prefs}")  # Debug print to check input values
-# #     sql.execute('''
-# #         INSERT INTO user_preferences (
-# #             serial_number, mother_name_diff, age_diff, sect_diff, eye_color_diff, skin_color_diff, israel_abroad_diff, 
-# #             studying_working_diff, height_diff, weight_diff, my_mother_name, age_value, sect_value, studying_working_value, 
-# #             eye_color_value, skin_color_value, israel_abroad_value, height_value, weight_value
-# #         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-# #     ''', (
-# #         prefs['serial_number'], prefs['mother_name_diff'], prefs['age_diff'], prefs['sect_diff'], prefs['eye_color_diff'], 
-# #         prefs['skin_color_diff'], prefs['israel_abroad_diff'], prefs['studying_working_diff'], prefs['height_diff'], 
-# #         prefs['weight_diff'], prefs['my_mother_name'], prefs['age_value'], prefs['sect_value'], prefs['studying_working_value'], 
-# #         prefs['eye_color_value'], prefs['skin_color_value'], prefs['israel_abroad_value'], prefs['height_value'], 
-# #         prefs['weight_value']
-# #     ))
+def insert_user_preferences(sql, prefs):
+    print(f"Inserting: {prefs}")  # Debug print to check input values
+    sql.execute('''
+        INSERT INTO user_preferences (
+            serial_number, mother_name_diff, age_diff, sect_diff, eye_color_diff, skin_color_diff, israel_abroad_diff, 
+            studying_working_diff, height_diff, weight_diff, my_mother_name, age_value, sect_value, studying_working_value, 
+            eye_color_value, skin_color_value, israel_abroad_value, height_value, weight_value
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ''', (
+        prefs['serial_number'], prefs['mother_name_diff'], prefs['age_diff'], prefs['sect_diff'], prefs['eye_color_diff'], 
+        prefs['skin_color_diff'], prefs['israel_abroad_diff'], prefs['studying_working_diff'], prefs['height_diff'], 
+        prefs['weight_diff'], prefs['my_mother_name'], prefs['age_value'], prefs['sect_value'], prefs['studying_working_value'], 
+        prefs['eye_color_value'], prefs['skin_color_value'], prefs['israel_abroad_value'], prefs['height_value'], 
+        prefs['weight_value']
+    ))
 
 # # def create_table_if_not_exists(sql):
 # #     create_table_query = '''
@@ -77,10 +77,14 @@
 
 # # prefs = get_user_preferences()  # קבלת פרטי המשתמש
 
-# # # try:
-# # insert_user_preferences(sql, prefs)  # Insert the data into the table
-# # sql.commit()  # Commit the transaction
-# # # print("User preferences have been successfully inserted into the database.")
+try:
+    insert_user_preferences(sql, prefs)  # Insert the data into the table
+    sql.commit()  # Commit the transaction
+    print("User preferences have been successfully inserted into the database.")
+except pyodbc.IntegrityError as e:
+    print("Error inserting data:", e)
+finally:
+    sql.close()
 
 
 

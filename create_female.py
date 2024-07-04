@@ -3,7 +3,7 @@ import random
 from datetime import datetime, timedelta
 
 # פרטי החיבור ל-SQL Server
-server = 'DESKTOP-9HC32H2\\SQLEXPRESS'  # שם השרת שלך
+server = 'DESKTOP-9HC32H2\SQLEXPRESS'  # שם השרת שלך
 database = 'matchmaking'  # שם בסיס הנתונים שלך
 
 # שמות לדוגמה
